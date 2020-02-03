@@ -19,8 +19,8 @@ public class GMT{
       // Converting the offset in minutes to the offset in milliseconds
       long offmili = offset * 60000;
 
-      // Using division and modulus to continually find the differrent untis of time
-      long totmil = System.currentTimeMillis() + offmili;
+      // Using division and modulus to section out each unit of time
+      long totmil = System.currentTimeMillis() + offmili; // <-- Adding the offset to the total amount of milliseconds
 
       long totsec = totmil / 1000;
 
