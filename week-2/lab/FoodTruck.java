@@ -102,7 +102,7 @@ public class FoodTruck{
           subtot = subtot + totals[y]; // Getting the subtotal using our total of each item array
         }
 
-        double tax    = subtot * SALES_TAX; // Using our sales tax global variable to define the tax for this transaction
+        double tax       = subtot * SALES_TAX; // Using our sales tax global variable to define the tax for this transaction
         double taxedtot  = subtot + tax;    // Our final, taxed, total
 
 
