@@ -1,0 +1,23 @@
+
+Invoice Number:		HATA1692262135
+
+Date:			2/6/2020
+Time:			21:35:49
+
+Item			Quantitity	Price	Total
+
+========================================================
+
+Chicken Shwarma Pita          40        $3.99     $159.60   
+
+Freedom Fries                 21        $2.99     $62.79    
+
+Fermented Shark Juice         9         $2.50     $22.50    
+
+========================================================
+
+Subtotal                                          $244.89
+
+6.25% sales tax                                   $15.31
+
+Total                                             $260.20
