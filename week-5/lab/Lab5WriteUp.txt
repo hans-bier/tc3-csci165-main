@@ -1,0 +1,91 @@
+=====Write Up=====
+
+Exercise 1: DebuggingExercise.java
+
+	The first issue is the first for loop is trying to insert a number 
+	into an address that is out of bounds for an array of size 4. An
+	array of size 4, does not have an address at 4, instead it'd be 
+	3 as the array counts  from zero, for example: 0, 1, 2, 3. And then
+	the second issue was pretty much the same in the second for loop.
+	It was trying to print the array using a counter that went out of
+	bounds for the array.
+	
+	I used the Eclipse Debugger to set a hit count break point at lines 
+	9 and 16 step through each step of the code to find where the insertion
+	of an out of bounds number was trying to be put in the array. 
+
+	To fix the issue I had to change the "i" integer in both for loops
+	from being intialized as "i=1" to "i=0" and then the boolean expression
+	from "i<5" to "i<4" to fix the out of bounds issue. But this changed
+	the values being inserted into the array. To fix that I changed "i"
+	to "i+1" in code line 8. And then in line 9: from "numbers[i] = i;"
+	to "numbers[i] = i+1;" to get the correct values inserted in the 
+	correct array positions.
+
+Exercise 2: DebugHash.java
+
+	I used a hit count breakpoint set to 49,791st value to find the 49,791st
+	hash value.
+
+Exercise 3: FibDebug.java
+	
+	The first issue was super apparent, Eclipse already highlighted the
+	isse with main missing a ")". The second issue was one the variable
+	f0 was being defined to the wrong number.
+	
+	It was super easy just to see looking at the code, but I used the debugger
+	to view what all the variables were being set to and saw that "f0=1" instead 
+	"f0=0"
+
+	To fix the issues I add a ")" in main initialization and changed "f0=1"
+	to "f0=0"
+
+Exercise 4: Marker.java
+	
+	In this file the issue was that every if statement was being entered, resulting
+	in every message being printed. While only one message was supposed to be 
+	printed.
+
+	I used the debugger with a breakpoint set at line 15, so I could step through
+	every line of code, until line 26, to see why every if statement was being
+	entered, which resulted in every message being printed.
+
+	 I changed every if statement from line 17 to line 26 to an else if statement,
+	which prevents every if statement from being entered, which results in only 
+	one message being printed.
+
+Exercise 5: Account.java, AccountDebug.java
+
+	The issue with these files was that line 5 of AccountDebug.java 
+	"Account a = null;" was causing a NullPointerException because the methods 
+	being called on the variable "a" were being referenced to a null memory 
+	address.
+
+	Using the debugger, I quickly found from the variables window that main()
+        was going to throw the NullPointerException in the next step of code. And 
+	when I fully executed the code I was able to have the Eclipse debugger high-
+	light the line of code that the error was coming from.
+
+	To fix this issue I had to change line 5 in AccountDebug.java from 
+	"Account a = null;", to "Account a = new Account("name");". Now the 
+	methods from the Account.java file wouldn't be being called on a null address.
+
+Exercise 6: Person.java, PersonDebug.java
+
+	The issue in these files were mostly all syntactical which Eclipse 
+	helpfully points out in default view. Specifically lines 8, 10, and 11 in
+	Person.Java and lines 3 and 5 in PersonDebug.java.
+
+	I could see all but one bug in these files just by Eclipse underlining the 
+	syntactical errors, and then when I fixed those I ran it through the debugger
+	and found line 5 in PersonDebug.java was using the wrong method call.
+
+	To fix the errors in Person.java, I changed "Student" to "Person" on line 8
+	all instances of "_name" were changed to "new_name", and all instances of 
+	"_age" were changed to "new_age". In line 10 "String" had to be removed from 
+	"String name = new_name;" and in line 11 "int" had to be removed from 
+	"int age = new_age;" To fix the errors in PersonDebug.java, I had to change
+	"statuc" in line 3 to "static" and in line 5 I had to change the second call
+	to getName() method to the getAge() method.
+
+ 
