@@ -1,0 +1,43 @@
+I have decided to use an inheritance hierarchy for this program as I will be able to easily add new objects if need be, I also have the most experience using hierarchy structures.
+
+My plan so far is to have a Simulator class that will be the "brain" of all the game's logic; this is where the worlds grid will be contained and where all object interaction will take place. The Simulator will contain a Map object called "neighbors" and will keep track of all locations, and what is occupying said locations; this will be used in the Creatures chooseAction method to decide what its next move will be.
+
+
+
+====Overview of all classes so far and my plans for the various objects characteristics====
+
+Simulator
+- Where everything will be called and the world will be simulated
+
+Creature
+- Abstract parent class to all objects that will be creatures
+
+Hobbits	extends Creature
+- Hobbits will move directly opposite of any Nazguls within the Hobbits radius, if there are no Nazguls in the radius the Hobbit will move towards the closest fellow hobbit and if there are no creatures within the Hobbit radius the Hobbit will move randomly. Hobbits will only replicate if they have completed three time steps and there is an empty cell adjacent to the Hobbit.
+Hobbits have the ability to attack only giraffe creatures as they are extremely jealous of giraffes height.
+
+Nazgul extends Creature
+- Nazguls will move depending on whether there is a Hobbit in an adjecent neghborhood cell and will try to attack the Hobbit, otherwise the Nazgul will move with rules alike to those of the Hobbit's. Nazguls will replicate if they have survived eight time steps, and will replicate according to the same rules as the Hobbits.
+
+Giraffe extends Creature
+- Giraffes will move directly opposite of any Hobbits within the giraffes radius, otherwise giraffes move randomly. Giraffes will viciously attack any object of type Creature that happens to come within the Giraffes neighborhood. Giraffes can only replicate if they have completed 5 time steps, there's an empty cell adjacent to the giraffe, and if there are no other Creature type Objects in the giraffes neighborhood (Giraffes are extremely secrective of their breeding procedures). Giraffes will also have the unique "neckLength" characteristic, where floor of (neckLength + sight)/2) will be the giraffes the length of giraffes sight.
+
+FrankOcean extends Creature
+- FrankOceans will move directly opposite of any Creature within his neighborhood. FrankOceans will attack any creature that comes within his neighborhood. FrankOceans will only "drop" (gain) an album for every 3 attacks FrankOceans have completed this means FrankOceans album drops will be rare (just like the real frank ocean!). FrankOceans can only replicate if they have more than 4 albums, so this should be rare.
+
+Items
+- Abstract parent class to all objects that will be items, various items will be littered through the world, some will be available for all Creatures to use, others will be Creature specific. All items will have a durability rating and will lose one durability point for every time step.
+
+hobbitItems extends Items
+- Items only for Hobbit specific use
+
+nazgulItems extends Items
+- Items only for Nazgul specific use
+
+Consumables
+- Consumables will be found on throughout the world and will have certain affects depending on what Creature moves into this items position. For example a consumable might give health to a Giraffe, but take away health from any other Creature (In my world Giraffe food is highly toxic to all other Creatures).
+
+xyPoint
+- a class for storing x and y variables on a Cartesian plane
+
+
