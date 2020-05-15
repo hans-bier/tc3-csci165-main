@@ -379,40 +379,5 @@ public class Nazgul extends Creature {
 	}
 	
 	
-	
-	public static void main(String[] args) {
-		 HashMap<xyPoint, Creature> creatureMap = new HashMap<>();
-		 HashMap<String, xyPoint>   pointRef    = new HashMap<>();
-		 
-		 for(int x = 0; x < 50; x++) {
-			 for(int y = 0; y < 50; y++) {
-				 pointRef.put(new xyPoint(x,y).toString(), new xyPoint(x,y));
-			 }
-		 }
-		 
-		 for(int x = 0; x < 50; x++) {
-			 for(int y = 0; y < 50; y++) {
-			 	creatureMap.put(pointRef.get(x+","+y), null);
-			 }
-		 }
-		//Giraffe g = new Giraffe((pointRef.get("4,4")), 1, 1, 1, 1, 1, 1);
-		Nazgul g1 = new Nazgul((pointRef.get("4,5")), 1, 2, 1, 1, 1);
-		Nazgul g2 = new Nazgul((pointRef.get("6,5")), 1, 2, 1, 1, 1);
-		Nazgul g3 = new Nazgul((pointRef.get("5,6")), 1, 2, 1, 1, 1);
-		Nazgul g4 = new Nazgul((pointRef.get("4,4")), 1, 2, 1, 1, 1);
-		Nazgul g5 = new Nazgul((pointRef.get("6,6")), 1, 2, 1, 1, 1);
-		Nazgul n = new Nazgul((pointRef.get("5,5")), 1, 2, 1, 1, 1);
-		//creatureMap.put(new xyPoint(4,4), g);
-		creatureMap.put(g1.xy, g1);
-		creatureMap.put(g2.xy, g2);
-		creatureMap.put(g3.xy, g3);
-		creatureMap.put(g4.xy, g4);
-		creatureMap.put(g5.xy, g5);
-		creatureMap.put(new xyPoint(3,3), n);
-		n.chooseAction(creatureMap, pointRef);
-
-		
-	}
-	
 
 }

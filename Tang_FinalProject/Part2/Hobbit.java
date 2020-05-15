@@ -517,29 +517,4 @@ public class Hobbit extends Creature {
 		else return Color.red;
 	}
 	
-	
-	public static void main(String[] args) {
-		 HashMap<xyPoint, Creature> creatureMap = new HashMap<>();
-		 HashMap<String, xyPoint>   pointRef    = new HashMap<>();
-		 HashMap<xyPoint, Items>  itemMap     = new HashMap<>();
-		 
-		 for(int x = 0; x < 50; x++) {
-			 for(int y = 0; y < 50; y++) {
-				 pointRef.put(new xyPoint(x,y).toString(), new xyPoint(x,y));
-			 }
-		 }
-		 
-		 for(int x = 0; x < 50; x++) {
-			 for(int y = 0; y < 50; y++) {
-			 	creatureMap.put(pointRef.get(x+","+y), null);
-			 }
-		 }
-	
-		 Hobbit h  = new Hobbit(pointRef.get("0,0"), 1, 2, 1, 3, 1);
-		 Bread  b = new Bread(new xyPoint(0,0), 1);
-		 creatureMap.put(h.xy, h);
-		 //h.chooseAction(creatureMap, pointRef);	
-	}
-	
-	
 }
