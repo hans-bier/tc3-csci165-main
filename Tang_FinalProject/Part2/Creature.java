@@ -5,6 +5,7 @@ import java.util.HashMap;
 public abstract class Creature {
 	
 	xyPoint xy;
+	int startHealth;
 	int health;
 	int sight;
 	int hunger;
@@ -16,6 +17,7 @@ public abstract class Creature {
 	
 	Creature(xyPoint xy, int h, int s, int hu, int a, int d) {
 		this.xy = new xyPoint(xy);
+		this.startHealth = h;
 		this.health = h;
 		this.sight  = s;
 		this.hunger = hu;
@@ -25,6 +27,7 @@ public abstract class Creature {
 	
 	Creature(Creature copy) {
 		this.xy.setXY(copy.xy.getX(), copy.xy.getY());
+		this.startHealth = copy.startHealth;
 		this.health = copy.health;
 		this.sight  = copy.sight;
 		this.hunger = copy.hunger;

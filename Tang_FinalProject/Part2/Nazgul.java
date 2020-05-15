@@ -3,11 +3,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-
 public class Nazgul extends Creature {
 
 	public ArrayList<Items> inventory;
 	public xyPoint holder = new xyPoint();
+	
 	
 	Nazgul() {}
 
@@ -23,7 +23,6 @@ public class Nazgul extends Creature {
 	
 	@Override
 	void moveTo(HashMap<xyPoint, Creature> neighbors, HashMap<String, xyPoint> pointRef) {
-		System.out.println("N moveTo");
 		int x1 = xy.getX();
 		int y1 = xy.getY();
 		int x2 = holder.getX();
@@ -128,11 +127,11 @@ public class Nazgul extends Creature {
 				}
 			}
 		}
+		
 	}
 	
 	@Override
 	void moveFrom(HashMap<xyPoint, Creature> neighbors, HashMap<String, xyPoint> pointRef) {
-		System.out.println("N moveFrom");
 		int x1 = xy.getX();
 		int y1 = xy.getY();
 		int x2 = holder.getX();
@@ -148,6 +147,9 @@ public class Nazgul extends Creature {
 					xy.setX(x1+1);
 					neighbors.put(pointRef.get((x1+1)+","+y1), this);
 				}
+				else {
+					moveRand(neighbors, pointRef);
+				}
 			}
 		}
 		if((x1-1) >= 0) {
@@ -156,6 +158,9 @@ public class Nazgul extends Creature {
 					neighbors.put(pointRef.get(x1+","+y1), null);
 					xy.setX(x1-1);
 					neighbors.put(pointRef.get((x1-1)+","+y1), this);
+				}
+				else {
+					moveRand(neighbors, pointRef);
 				}
 			}
 		}
@@ -166,6 +171,9 @@ public class Nazgul extends Creature {
 					xy.setY(y1+1);
 					neighbors.put(pointRef.get((x1)+","+(y1+1)), this);
 				}
+				else {
+					moveRand(neighbors, pointRef);
+				}
 			}
 		}
 		if((y1-1) >= 0) {
@@ -174,6 +182,9 @@ public class Nazgul extends Creature {
 					neighbors.put(pointRef.get(x1+","+y1), null);
 					xy.setY(y1-1);
 					neighbors.put(pointRef.get(x1+","+(y1-1)), this);
+				}
+				else {
+					moveRand(neighbors, pointRef);
 				}
 			}
 		}
@@ -184,6 +195,9 @@ public class Nazgul extends Creature {
 					xy.setXY((x1+1), (y1+1));
 					neighbors.put(pointRef.get((x1+1)+","+(y1+1)), this);
 				}
+				else {
+					moveRand(neighbors, pointRef);
+				}
 			}
 		}
 		if((x1+1) <= sqrMap && (y1-1) >= 0 ) {
@@ -192,6 +206,9 @@ public class Nazgul extends Creature {
 					neighbors.put(pointRef.get(x1+","+y1), null);
 					xy.setXY((x1+1), (y1-1));
 					neighbors.put(pointRef.get((x1+1)+","+(y1-1)), this);
+				}
+				else {
+					moveRand(neighbors, pointRef);
 				}
 			}
 		}	
@@ -202,6 +219,9 @@ public class Nazgul extends Creature {
 					xy.setXY((x1-1), (y1-1));
 					neighbors.put(pointRef.get((x1-1)+","+(y1-1)), this);
 				}
+				else {
+					moveRand(neighbors, pointRef);
+				}
 			}
 		}
 		if((x1-1) >= 0 && (y1+1) <= sqrMap) {
@@ -211,20 +231,21 @@ public class Nazgul extends Creature {
 					xy.setXY((x1-1), (y1+1));
 					neighbors.put(pointRef.get((x1-1)+","+(y1+1)), this);
 				}
+				else {
+					moveRand(neighbors, pointRef);
+				}
 			}
 		}
+		
 	}
 	
 	@Override 
 	void moveRand(HashMap<xyPoint, Creature> neighbors, HashMap<String, xyPoint> pointRef) {
-		System.out.println("N moveRand");
 		int sqrMap = (int) Math.sqrt(neighbors.size()) - 1;
+		Random r1  = new Random();
 		
-		Random r1 = new Random();
-		
-		int x1  = xy.getX();
-		int y1  = xy.getY();
-		
+		int x1   = xy.getX();
+		int y1   = xy.getY();
 		
 		int xMax = (x1+1);
 		int xMin = (x1-1);
@@ -250,47 +271,43 @@ public class Nazgul extends Creature {
 		int x2 = xChoice[r1.nextInt(2)];
 		int y2 = yChoice[r1.nextInt(2)];
 
-		
 		if(!(neighbors.get(pointRef.get(x2+","+y2)) instanceof Creature)) {
 			neighbors.put(pointRef.get(x1+","+y1), null);
 			xy.setXY(x2, y2);
 			neighbors.put(pointRef.get(x2+","+y2), this);
 		}
+		
 	}
 
 	@Override
 	void attack(Creature c) {
-		System.out.println("N attack");
 		hunger = hunger - dmg;
 		c.health = c.health - dmg;
 	}
 
 	@Override
 	void replicate(HashMap<xyPoint, Creature> neighbors, HashMap<String, xyPoint> pointRef) {
-		System.out.println("N replicate");
-		stay();
 		int x = holder.getX();
 		int y = holder.getY();
 		
 		Nazgul n = new Nazgul(this);
 		n.age = 0;
-		neighbors.put(pointRef.get(x+","+y), n);
 		
+		neighbors.put(pointRef.get(x+","+y), n);
 		Simulator.birth.add(n);
 		
 		age = 0;
+		
+		stay();
 	}
 
 	@Override
 	void stay() {
-		System.out.println("N stay");
-		hunger = hunger++;
+		hunger = hunger + 1;
 	}
 
 	@Override
 	void chooseAction(HashMap<xyPoint, Creature> neighbors, HashMap<String, xyPoint> pointRef) {
-		System.out.println("N chooseAction");
-		int[][] nbd;
 		ArrayList<xyPoint> points  = new ArrayList<>();
 		ArrayList<xyPoint> hobbits = new ArrayList<>();
 		ArrayList<xyPoint> nazguls = new ArrayList<>();
@@ -303,15 +320,12 @@ public class Nazgul extends Creature {
 		double minCheck = 0;
 		
 		holder = null;
-
-			
-		nbd = new int[nbdSqr][nbdSqr];
 		
-		for(x = (xy.getX() - sight); x < (xy.getX() - sight) + nbd.length; x++) {
-			for(y = (xy.getY() - sight); y < (xy.getY() - sight) + nbd[0].length; y++) {
+		for(x = (xy.getX() - sight); x < (xy.getX() - sight) + nbdSqr; x++) {
+			for(y = (xy.getY() - sight); y < (xy.getY() - sight) + nbdSqr; y++) {
 				if((x >= 0 && x <= sqrMap) && (y >= 0 && y <=sqrMap)) {
-					xyPoint p = pointRef.get(x+","+y);
 					
+					xyPoint p = pointRef.get(x+","+y);
 					points.add(p);
 					
 					if(neighbors.get(p) instanceof Hobbit) {
@@ -340,11 +354,9 @@ public class Nazgul extends Creature {
 			}
 			if(min <= 1) {
 				attack(neighbors.get(holder));
-				hobbits.clear();
 			}
 			else {
 				moveTo(neighbors, pointRef);
-				hobbits.clear();
 			}
 		}
 		if(age >= 10) {
@@ -357,27 +369,26 @@ public class Nazgul extends Creature {
 				}
 			}
 		}
-		if(nazguls.size() > 0) {
+		else if(nazguls.size() > 0) {
 			Random r1 = new Random();
 			int ind = r1.nextInt(nazguls.size());
 	
 			holder = nazguls.get(ind);
 			
 			moveTo(neighbors, pointRef);
-			nazguls.clear();
 		}
-		else {
+		else if(nazguls.size() == 0 && hobbits.size() == 0) {
 			moveRand(neighbors, pointRef);
 		}
+		nazguls.clear();
+		hobbits.clear();
 		
 	}
 
 	@Override
 	Color color() {
-		if(health > (health/2)) return Color.black;
+		if(health > (startHealth/2)) return Color.black;
 		else return Color.gray.brighter(); 
 	}
-	
-	
 
 }

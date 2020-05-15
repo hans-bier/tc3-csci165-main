@@ -2,33 +2,31 @@ import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-import java.util.Iterator;
 import java.util.Random;
-import java.util.Scanner;
+
 class Simulator extends JPanel implements ActionListener {
 	
 	private static final long serialVersionUID = 1L;
 	private JFrame window = new JFrame();
 	Timer timer = new Timer(100, this);
 	
-
 	private int gridLen = 50;
 	private int gridWid = 50;
+	
 	private  HashMap<String, xyPoint>   pointRef    = new HashMap<>();
 	private  HashMap<xyPoint, Creature> creatureMap = new HashMap<>();
-	private HashMap<xyPoint, Items>  itemMap     = new HashMap<>();
-	public static ArrayList<Items>    item  = new ArrayList<>();
+	private HashMap<xyPoint, Items>  itemMap        = new HashMap<>();
+	
+	public static ArrayList<Items>    item       = new ArrayList<>();
 	public static ArrayList<Items>    itemSpawn  = new ArrayList<>();
-	public static ArrayList<Creature> birth = new ArrayList<>();
-	public static ArrayList<Creature> life  = new ArrayList<>();
-	public static ArrayList<Creature> death = new ArrayList<>();
+	public static ArrayList<Creature> birth      = new ArrayList<>();
+	public static ArrayList<Creature> life       = new ArrayList<>();
+	public static ArrayList<Creature> death      = new ArrayList<>();
 	
 	
 	public Simulator() {
@@ -61,7 +59,6 @@ class Simulator extends JPanel implements ActionListener {
 	 }
 	 
 	 void doDrawing(Graphics g) {
-		
 		for(Creature c : life) {
 			g.setColor(c.color());
 			g.fillRect(c.xy.tenScaleX(), c.xy.tenScaleY(), 10, 10);
@@ -87,7 +84,6 @@ class Simulator extends JPanel implements ActionListener {
 			 }
 		 }
 		 
-		 
 		 Hobbit h  = new Hobbit(new xyPoint(1,7), 100, 2, 1, 0, 0);
 		 Hobbit h2 = new Hobbit(new xyPoint(8,9), 100, 2, 1, 0, 0);
 		 Hobbit h3 = new Hobbit(new xyPoint(10,13), 100, 2, 1, 0, 0);
@@ -107,23 +103,23 @@ class Simulator extends JPanel implements ActionListener {
 		 life.add(h);
 		 life.add(h2);
 		 life.add(h3);
+		 
 		 life.add(n);
 		 life.add(n2);
 		 life.add(n3);
 		 
 		 for(int j = 0; j < gridLen; j++) {		
-				Random r = new Random();
-				
-				int x = r.nextInt(gridLen);
-				int y = r.nextInt(gridLen);
-				int hungerPoints = r.nextInt(10);
-				
-				xyPoint p = new xyPoint(x,y);
-				
-				Bread b = new Bread(p, hungerPoints);
-						
-				itemMap.put(pointRef.get(x+","+y), b);
-				item.add(b);
+			Random r = new Random();
+			
+			int x = r.nextInt(gridLen);
+			int y = r.nextInt(gridLen);
+			int hungerPoints = r.nextInt(10);
+			
+			xyPoint p = new xyPoint(x,y);
+			Bread   b = new Bread(p, hungerPoints);
+					
+			itemMap.put(pointRef.get(x+","+y), b);
+			item.add(b);
 		}
 	}
 	
@@ -153,7 +149,7 @@ class Simulator extends JPanel implements ActionListener {
 					i.spawn(itemMap, pointRef);
 				}
 			}
-			if(c.hunger > 10) {
+			if(c.hunger > 25) {
 				c.health = c.health - 1;
 			}
 			if(c.health <= 0) {
@@ -163,7 +159,6 @@ class Simulator extends JPanel implements ActionListener {
 		for(Creature c : death) {
 			life.remove(c);
 			creatureMap.remove(c.xy);
-			
 		}
 		death.clear();
 		
@@ -171,10 +166,6 @@ class Simulator extends JPanel implements ActionListener {
 			life.add(c);
 		}
 		birth.clear();
-	
-		
-		
-		
 	 } 
 	
 	 

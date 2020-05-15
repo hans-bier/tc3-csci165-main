@@ -1,4 +1,3 @@
-
 public class xyPoint {
 	int x;
 	int y;

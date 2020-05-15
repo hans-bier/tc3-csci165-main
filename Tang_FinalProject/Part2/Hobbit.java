@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-
 public class Hobbit extends Creature {
 
 	public ArrayList<Items> inventory;
@@ -24,7 +23,6 @@ public class Hobbit extends Creature {
 	
 	@Override
 	void moveTo(HashMap<xyPoint, Creature> neighbors, HashMap<String, xyPoint> pointRef) {
-		System.out.println("moveTo");
 		int x1 = xy.getX();
 		int y1 = xy.getY();
 		int x2 = holder.getX();
@@ -62,7 +60,7 @@ public class Hobbit extends Creature {
 		else if(x1 > x2 && y1 == y2) {
 			if(!(neighbors.get(pointRef.get((x1-1)+","+y1)) instanceof Creature)) {
 				neighbors.put(pointRef.get(x1+","+y1), null);
-				xy.setX(x1-1);
+				this.xy.setX(x1-1);
 				neighbors.put(pointRef.get((x1-1)+","+y1), this);
 			}
 			else {
@@ -136,12 +134,10 @@ public class Hobbit extends Creature {
 			}
 		}
 		
-
 	}
 	
 	@Override
 	void moveFrom(HashMap<xyPoint, Creature> neighbors, HashMap<String, xyPoint> pointRef) {
-		System.out.println("moveFrom");
 		int x1 = xy.getX();
 		int y1 = xy.getY();
 		int x2 = holder.getX();
@@ -256,7 +252,8 @@ public class Hobbit extends Creature {
 			else if((y12 - 1) < 0) {
 				y1 = (((y1-1)%sqrMap)+(sqrMap+1));
 			}
-				        
+				
+			
 			if(x12 > x2 && y12 == y2) {
 				if(!(neighbors.get(pointRef.get(x1+","+y2)) instanceof Creature)) {
 					neighbors.put(pointRef.get(x12+","+y12), null);
@@ -346,23 +343,22 @@ public class Hobbit extends Creature {
 			}
 		}
 		
-
 	}
 	
 	@Override
 	void moveRand(HashMap<xyPoint, Creature> neighbors, HashMap<String, xyPoint> pointRef) {
-		System.out.println("moveRand");
 		int sqrMap = (int) Math.sqrt(neighbors.size()) - 1;
 		
 		Random r1 = new Random();
+		 
+		int x1    = xy.getX();
+		int y1    = xy.getY();
 		
-		int x1  = xy.getX();
-		int y1  = xy.getY();
-
-		int xMax = (x1+1);
-		int xMin = (x1-1);
-		int yMax = (y1+1);
-		int yMin = (y1-1);
+		int xMax  = (x1+1);
+		int xMin  = (x1-1);
+		int yMax  = (y1+1);
+		int yMin  = (y1-1);
+		
 		
 		if((xMax) > sqrMap) {
 			xMax = (((xMax)%sqrMap)-1);
@@ -377,34 +373,19 @@ public class Hobbit extends Creature {
 		else if((yMin) < 0) {
 			yMin = (((yMin)%sqrMap)+(sqrMap+1));
 		}
-		if(xMax < 0)
-		{
-			xMax =0;
-		}
-		if(xMin < 0)
-		{
-			xMin =0;
-		}
-		if(yMax < 0)
-		{
-			yMax =0;
-		}
-		if(yMin < 0)
-		{
-			yMin =0;
-		}
+		
 		int[] xChoice = {xMin, xMax};
 		int[] yChoice = {yMin, yMax};
 		
 		int x2 = xChoice[r1.nextInt(2)];
 		int y2 = yChoice[r1.nextInt(2)];
 
-		
 		if(!(neighbors.get(pointRef.get(x2+","+y2)) instanceof Creature)) {
 			neighbors.put(pointRef.get(x1+","+y1), null);
 			xy.setXY(x2, y2);
 			neighbors.put(pointRef.get(x2+","+y2), this);
 		}
+		
 	}
 
 	@Override
@@ -414,30 +395,28 @@ public class Hobbit extends Creature {
 
 	@Override
 	void replicate(HashMap<xyPoint, Creature> neighbors, HashMap<String, xyPoint> pointRef) {
-		System.out.println("replicate");
-		stay();
 		int x = holder.getX();
 		int y = holder.getY();
-		
+
 		Hobbit h = new Hobbit(this);
 		h.age = 0;
-		neighbors.put(pointRef.get(x+","+y), h);
 		
+		neighbors.put(pointRef.get(x+","+y), h);
 		Simulator.birth.add(h);
 		
 		age = 0;
+		
+		stay();
+		
 	}
 
 	@Override
 	void stay() {
-		System.out.println("stay");
-		hunger = hunger++;
+		hunger = hunger + 1;
 	}
 
 	@Override
 	void chooseAction(HashMap<xyPoint, Creature> neighbors, HashMap<String, xyPoint> pointRef) {
-		System.out.println("chooseAction");
-		int[][] nbd;
 		ArrayList<xyPoint> points  = new ArrayList<>();
 		ArrayList<xyPoint> nazguls = new ArrayList<>();
 		ArrayList<xyPoint> hobbits = new ArrayList<>();
@@ -448,14 +427,12 @@ public class Hobbit extends Creature {
 		int y;
 		
 		holder = null;
-		
-		nbd = new int[nbdSqr][nbdSqr];
 				
-		for(x = (xy.getX() - sight); x < (xy.getX() - sight) + nbd.length; x++) {
-			for(y = (xy.getY() - sight); y < (xy.getY() - sight) + nbd[0].length; y++) {
+		for(x = (xy.getX() - sight); x < (xy.getX() - sight) + nbdSqr; x++) {
+			for(y = (xy.getY() - sight); y < (xy.getY() - sight) + nbdSqr; y++) {
 				if((x >= 0 && x <= sqrMap) && (y >= 0 && y<= sqrMap)) {
-					xyPoint p = pointRef.get(x+","+y);
 					
+					xyPoint p = pointRef.get(x+","+y);
 					points.add(p);
 					
 					if(neighbors.get(p) instanceof Nazgul) {
@@ -467,13 +444,13 @@ public class Hobbit extends Creature {
 				}
 			}
 		}
+		
 		points.remove(xy);
 		hobbits.remove(xy);
 		
-		
 		if(nazguls.size() > 0) {
 			double min = xy.getDistance(nazguls.get(0));
-			double minCheck =min;
+			double minCheck = min;
 			holder = nazguls.get(0);
 			for(xyPoint p : nazguls) {
 				minCheck = xy.getDistance(p);
@@ -483,7 +460,6 @@ public class Hobbit extends Creature {
 				}	
 			}
 			moveFrom(neighbors, pointRef);
-			nazguls.clear();
 		}
 		if(age >= 10) {
 			for(xyPoint p : points) {
@@ -495,24 +471,25 @@ public class Hobbit extends Creature {
 				}
 			}
 		}
-		if(hobbits.size() > 0) {
+		else if(hobbits.size() > 0) {
 			Random r1 = new Random();
 			int ind = r1.nextInt(hobbits.size());
 			
 			holder = hobbits.get(ind);
 			moveTo(neighbors, pointRef);
-			hobbits.clear();
 		}
-		else {
+		else if(hobbits.size() == 0 && nazguls.size() == 0){
 			moveRand(neighbors, pointRef);
 		}
+		nazguls.clear();
+		hobbits.clear();
 		
 	}
 		
 
 	@Override
-	Color color() {		
-		if(this.health > (health/2)) return Color.green.darker();
+	Color color() {
+		if(health > (startHealth/2)) return Color.green.darker();
 		
 		else return Color.red;
 	}
